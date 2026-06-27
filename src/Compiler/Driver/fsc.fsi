@@ -63,6 +63,7 @@ type SourceGenerationCompilerResponse =
         OrderedSourceFiles: string list
         GeneratedSources: FSharp.Compiler.SourceGeneration.FSharpGeneratedSource list
         Diagnostics: FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic list
+        Store: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore
         ElapsedTime: System.TimeSpan
     }
 

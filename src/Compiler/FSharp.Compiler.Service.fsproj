@@ -446,6 +446,7 @@
     <Compile Include="CodeGen\IlxGen.fs" />
     <Compile Include="SourceGeneration\FSharpSourceGeneratorTypes.fsi" />
     <Compile Include="SourceGeneration\FSharpSourceGeneratorTypes.fs" />
+    <Compile Include="SourceGeneration\GeneratedSourceOverlay.fs" />
     <Compile Include="Driver\FxResolver.fsi" />
     <Compile Include="Driver\FxResolver.fs" />
     <Compile Include="DependencyManager/AssemblyResolveHandler.fsi">

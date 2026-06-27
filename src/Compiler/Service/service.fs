@@ -166,6 +166,16 @@ type FSharpChecker
 
     static let globalInstance = lazy FSharpChecker.Create()
 
+    // Per-checker run cache for source generators. Keyed by an int64 identity
+    // hash of (project options identity + generator set + generator options +
+    // additional-file contents). Value is the cached run result (incl. its
+    // in-memory store). Flushd by ClearCaches / InvalidateAll / InvalidateConfiguration.
+    let generatorRunCache =
+        MruCache<AnyCallerThreadToken, int64, FSharpSourceGeneratorRunResult>(
+            keepStrongly = 20,
+            areSame = (fun (a: int64, b: int64) -> a = b)
+        )
+
     // STATIC ROOT: FSharpLanguageServiceTestable.FSharpChecker.braceMatchCache. Most recently used cache for brace matching. Accessed on the
     // background UI thread, not on the compiler thread.
     //
@@ -393,6 +403,8 @@ type FSharpChecker
                         OrderedSourceFiles = response.OrderedSourceFiles
                         Diagnostics = response.Diagnostics
                         ElapsedTime = response.ElapsedTime
+                        Store = response.Store
+                        CacheHit = false
                     }
                 | None ->
                     FSharpSourceGeneratorRunResult.Empty
@@ -420,9 +432,33 @@ type FSharpChecker
                     options
                     generators
                     generatorOptions
+                    (Some generatorRunCache)
+
+            // Compute a stamp that encodes the full project identity PLUS the
+            // generated-source content, and set it on the updated options. Because
+            // AreSameForChecking short-circuits on Stamp equality when both sides
+            // have one, this makes incremental invalidation generator-aware: a
+            // generator content change (stable HintName/FileName) yields a different
+            // Stamp and forces a fresh builder, without relying on disk mtime.
+            let additionalFiles =
+                generatorOptions.AdditionalFiles
+                |> List.map (fun p ->
+                    try p, System.IO.File.ReadAllText(p)
+                    with _ -> p, "")
+                |> Map.ofList
+
+            let stamp =
+                FSharpSourceGeneratorDriver.computeStamp
+                    options
+                    generators
+                    generatorOptions
+                    additionalFiles
+                    result.GeneratedSources
 
             let updatedOptions =
-                { options with SourceFiles = result.OrderedSourceFiles |> List.toArray }
+                { options with
+                    SourceFiles = result.OrderedSourceFiles |> List.toArray
+                    Stamp = Some stamp }
 
             return updatedOptions, result
         }
@@ -448,6 +484,13 @@ type FSharpChecker
                     userOpName
                 )
 
+            // Register the in-memory generated-source overlay so the incremental
+            // builder can read generated source without the files existing on disk.
+            // Scoped to this check; the run result's Store is returned to the host so
+            // it can re-register for a longer lifetime if needed.
+            use _overlayScope =
+                GeneratedSourceOverlay.register genResult.Store
+
             let! checkResults = checker.ParseAndCheckProject(updatedOptions, userOpName)
             return checkResults, genResult
         }
@@ -459,6 +502,7 @@ type FSharpChecker
     member ic.ClearCaches() =
         let utok = AnyCallerThread
         braceMatchCache.Clear(utok)
+        generatorRunCache.Clear(utok)
         backgroundCompiler.ClearCaches()
         ClearAllILModuleReaderCache()
 
@@ -475,6 +519,9 @@ type FSharpChecker
     /// For example, dependent references may have been deleted or created.
     member _.InvalidateConfiguration(options: FSharpProjectOptions, ?userOpName: string) =
         let userOpName = defaultArg userOpName "Unknown"
+        // A configuration change may invalidate generator inputs, so flush the
+        // driver run cache (it rebuilds cheaply for deterministic generators).
+        generatorRunCache.Clear(AnyCallerThread)
         backgroundCompiler.InvalidateConfiguration(options, userOpName)
 
     member _.InvalidateConfiguration(projectSnapshot: FSharpProjectSnapshot, ?userOpName: string) =

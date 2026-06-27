@@ -33,8 +33,9 @@ type FSharpGeneratedSource =
         /// for de-duplicating outputs.
         HintName: string
 
-        /// The absolute (or project-relative) file path that the generated source should be
-        /// written to and referenced by during compilation.
+        /// The file path that the generated source should be referenced by during compilation.
+        /// May be relative, in which case the driver resolves it to a deterministic absolute
+        /// path under the output directory.
         FileName: string
 
         /// The text of the generated source.
@@ -61,11 +62,14 @@ type FSharpSourceGeneratorDiagnostic =
 [<NoComparison>]
 type FSharpSourceGeneratorOptions =
     {
-        /// The directory under which generated source files are written.
+        /// The directory under which generated source files are (optionally) written to disk
+        /// and under which relative generated FileNames are resolved to absolute paths.
         OutputDirectory: string
 
-        /// When true, generated files are written to disk and included in the compilation.
-        /// When false, generators are still run but no files are emitted.
+        /// When true, generated files are additionally written to disk for human inspection /
+        /// source-link / pdb embedding. When false, generators are still run and the compiler
+        /// reads generated source through the in-memory store; disk output is never required
+        /// for correctness.
         EmitGeneratedFiles: bool
 
         /// Additional, non-source files (e.g. schema.json) made available to generators via
@@ -106,15 +110,39 @@ type FSharpSourceGeneratorOutput =
         Diagnostics: FSharpSourceGeneratorDiagnostic list
     }
 
+/// An immutable, case-insensitive store of generated source text keyed by absolute
+/// file path. Populated unconditionally for every generated source, regardless of
+/// whether the generated files are also written to disk. The compiler reads
+/// generated source through this store (via the FileSystem overlay), so disk
+/// output is never required for correctness.
+[<Sealed; NoComparison; NoEquality>]
+type FSharpGeneratedSourceStore =
+    /// Create a store from a sequence of (absolute-or-relative path, source text) pairs.
+    /// Paths are normalized to absolute, case-insensitive keys.
+    new: entries: (string * string) seq -> FSharpGeneratedSourceStore
+
+    /// The empty store.
+    static member Empty: FSharpGeneratedSourceStore
+
+    /// Try to get the source text for the given path (path is normalized internally).
+    member TryGet: fileName: string -> string option
+
+    /// Whether the store contains the given path.
+    member Contains: fileName: string -> bool
+
+    /// A read-only view of the store as a map of normalized-path -> source text.
+    member ToOverlayMap: unit -> Map<string, string>
+
 /// The result of running a set of source generators against a project.
 [<NoComparison>]
 type FSharpSourceGeneratorRunResult =
     {
-        /// All generated sources produced by the generators.
+        /// All generated sources produced by the generators (with resolved absolute FileNames).
         GeneratedSources: FSharpGeneratedSource list
 
         /// The final, ordered list of source files (originals plus generated) that should be
-        /// passed to the compiler.
+        /// passed to the compiler. Always contains the logical (absolute) FileName, never
+        /// depending on whether the file was written to disk.
         OrderedSourceFiles: string list
 
         /// Diagnostics produced by the generators and by the ordering engine.
@@ -122,6 +150,15 @@ type FSharpSourceGeneratorRunResult =
 
         /// The time spent running the generators and ordering their outputs.
         ElapsedTime: TimeSpan
+
+        /// The in-memory store of generated source text. The host holds this for the
+        /// lifetime of a project check so the compiler can read generated source without
+        /// requiring the files to exist on disk.
+        Store: FSharpGeneratedSourceStore
+
+        /// True if this result was served from the driver's run cache without re-running
+        /// the generators.
+        CacheHit: bool
     }
 
     static member Empty: FSharpSourceGeneratorRunResult
@@ -132,3 +169,10 @@ type IFSharpSourceGenerator =
     abstract Generate:
         context: FSharpSourceGeneratorContext ->
             FSharpSourceGeneratorOutput
+
+/// Optional interface a generator can implement to supply a stable identifier used
+/// to build deterministic generated file paths and cache identity. When not
+/// implemented, the driver falls back to the generator's .NET type full name.
+[<Interface>]
+type IFSharpSourceGeneratorWithId =
+    abstract GeneratorId: string

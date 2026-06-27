@@ -451,6 +451,7 @@ type SourceGenerationCompilerResponse =
         OrderedSourceFiles: string list
         GeneratedSources: FSharp.Compiler.SourceGeneration.FSharpGeneratedSource list
         Diagnostics: FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic list
+        Store: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore
         ElapsedTime: TimeSpan
     }
 
@@ -638,11 +639,9 @@ let main1
     // source files are converted into compiler source documents and parsed. Generated files
     // participate in parsing/typechecking and later emit, but they do not change default
     // output naming.
-    let sourceFiles =
+    let sourceGenerationResult =
         match sourceGenerationHook with
-        | None ->
-            sourceFiles
-
+        | None -> None
         | Some hook ->
             ReportTime tcConfig "Source generation"
 
@@ -678,7 +677,27 @@ let main1
                     ()
 
             AbortOnError(diagnosticsLogger, exiter)
-            response.OrderedSourceFiles
+
+            // Register the in-memory generated-source overlay so the generated paths
+            // are readable by ParseInputFiles without requiring the files to exist on
+            // disk. The scope is lifted to the main1 level so it stays active through
+            // parse + typecheck and is disposed when main1 returns.
+            let overlayScope =
+                FSharp.Compiler.SourceGeneration.GeneratedSourceOverlay.register response.Store
+
+            Some(overlayScope, response.OrderedSourceFiles)
+
+    let sourceFiles =
+        match sourceGenerationResult with
+        | None -> sourceFiles
+        | Some (_, ordered) -> ordered
+
+    use _overlayScope =
+        match sourceGenerationResult with
+        | Some (scope, _) -> scope
+        | None ->
+            { new System.IDisposable with
+                member _.Dispose() = () }
 
     let ilSourceDocs =
         [
