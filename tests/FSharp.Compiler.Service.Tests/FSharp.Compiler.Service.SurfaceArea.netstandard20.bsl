@@ -2165,14 +2165,17 @@ FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[Microsoft.FSharp.Core.Unit] NotifyProjectCleaned(FSharp.Compiler.CodeAnalysis.FSharpProjectOptions, Microsoft.FSharp.Core.FSharpOption`1[System.String])
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Collections.Generic.IEnumerable`1[FSharp.Compiler.Text.Range]] FindBackgroundReferencesInFile(System.String, FSharp.Compiler.CodeAnalysis.FSharpProjectOptions, FSharp.Compiler.Symbols.FSharpSymbol, Microsoft.FSharp.Core.FSharpOption`1[System.Boolean], Microsoft.FSharp.Core.FSharpOption`1[System.Boolean], Microsoft.FSharp.Core.FSharpOption`1[System.String])
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Collections.Generic.IEnumerable`1[FSharp.Compiler.Text.Range]] FindBackgroundReferencesInFile(System.String, FSharpProjectSnapshot, FSharp.Compiler.Symbols.FSharpSymbol, Microsoft.FSharp.Core.FSharpOption`1[System.String])
+FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Tuple`2[FSharp.Compiler.CodeAnalysis.FSharpCheckProjectResults,FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult]] ParseAndCheckProjectWithSourceGenerators(FSharp.Compiler.CodeAnalysis.FSharpProjectOptions, Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.IFSharpSourceGenerator], FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions, Microsoft.FSharp.Core.FSharpOption`1[System.String])
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Tuple`2[FSharp.Compiler.CodeAnalysis.FSharpParseFileResults,FSharp.Compiler.CodeAnalysis.FSharpCheckFileAnswer]] ParseAndCheckFileInProject(System.String, FSharpProjectSnapshot, Microsoft.FSharp.Core.FSharpOption`1[System.String])
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Tuple`2[FSharp.Compiler.CodeAnalysis.FSharpParseFileResults,FSharp.Compiler.CodeAnalysis.FSharpCheckFileAnswer]] ParseAndCheckFileInProject(System.String, Int32, FSharp.Compiler.Text.ISourceText, FSharp.Compiler.CodeAnalysis.FSharpProjectOptions, Microsoft.FSharp.Core.FSharpOption`1[System.String])
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Tuple`2[FSharp.Compiler.CodeAnalysis.FSharpParseFileResults,FSharp.Compiler.CodeAnalysis.FSharpCheckFileResults]] GetBackgroundCheckResultsForFileInProject(System.String, FSharp.Compiler.CodeAnalysis.FSharpProjectOptions, Microsoft.FSharp.Core.FSharpOption`1[System.String])
+FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Tuple`2[FSharp.Compiler.CodeAnalysis.FSharpProjectOptions,FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult]] RunSourceGeneratorsAndUpdateProject(FSharp.Compiler.CodeAnalysis.FSharpProjectOptions, Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.IFSharpSourceGenerator], FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions, Microsoft.FSharp.Core.FSharpOption`1[System.String])
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Tuple`2[FSharp.Compiler.CodeAnalysis.FSharpProjectOptions,Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.Diagnostics.FSharpDiagnostic]]] GetProjectOptionsFromScript(System.String, FSharp.Compiler.Text.ISourceText, Microsoft.FSharp.Core.FSharpOption`1[FSharp.Compiler.Text.Position], Microsoft.FSharp.Core.FSharpOption`1[System.Boolean], Microsoft.FSharp.Core.FSharpOption`1[System.DateTime], Microsoft.FSharp.Core.FSharpOption`1[System.String[]], Microsoft.FSharp.Core.FSharpOption`1[System.Boolean], Microsoft.FSharp.Core.FSharpOption`1[System.Boolean], Microsoft.FSharp.Core.FSharpOption`1[System.Boolean], Microsoft.FSharp.Core.FSharpOption`1[System.String], Microsoft.FSharp.Core.FSharpOption`1[System.Int64], Microsoft.FSharp.Core.FSharpOption`1[System.String])
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Tuple`2[FSharp.Compiler.CodeAnalysis.ProjectSnapshot+FSharpProjectSnapshot,Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.Diagnostics.FSharpDiagnostic]]] GetProjectSnapshotFromScript(System.String, FSharp.Compiler.Text.ISourceTextNew, Microsoft.FSharp.Core.FSharpOption`1[FSharp.Compiler.Text.Position], Microsoft.FSharp.Core.FSharpOption`1[FSharp.Compiler.CodeAnalysis.DocumentSource], Microsoft.FSharp.Core.FSharpOption`1[System.Boolean], Microsoft.FSharp.Core.FSharpOption`1[System.DateTime], Microsoft.FSharp.Core.FSharpOption`1[System.String[]], Microsoft.FSharp.Core.FSharpOption`1[System.Boolean], Microsoft.FSharp.Core.FSharpOption`1[System.Boolean], Microsoft.FSharp.Core.FSharpOption`1[System.Boolean], Microsoft.FSharp.Core.FSharpOption`1[System.String], Microsoft.FSharp.Core.FSharpOption`1[System.Int64], Microsoft.FSharp.Core.FSharpOption`1[System.String])
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Tuple`2[FSharp.Compiler.Diagnostics.FSharpDiagnostic[],Microsoft.FSharp.Core.FSharpOption`1[System.Exception]]] Compile(System.String[], Microsoft.FSharp.Core.FSharpOption`1[System.String])
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Tuple`2[FSharp.Compiler.Text.Range,FSharp.Compiler.Text.Range][]] MatchBraces(System.String, FSharp.Compiler.Text.ISourceText, FSharp.Compiler.CodeAnalysis.FSharpParsingOptions, Microsoft.FSharp.Core.FSharpOption`1[System.String])
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Tuple`2[FSharp.Compiler.Text.Range,FSharp.Compiler.Text.Range][]] MatchBraces(System.String, System.String, FSharp.Compiler.CodeAnalysis.FSharpProjectOptions, Microsoft.FSharp.Core.FSharpOption`1[System.String])
+FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.FSharpAsync`1[System.Tuple`3[FSharp.Compiler.Diagnostics.FSharpDiagnostic[],FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult,Microsoft.FSharp.Core.FSharpOption`1[System.Exception]]] CompileWithSourceGenerators(System.String[], Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.IFSharpSourceGenerator], FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions, Microsoft.FSharp.Core.FSharpOption`1[System.String])
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.IEvent`2[Microsoft.FSharp.Control.FSharpHandler`1[FSharp.Compiler.CodeAnalysis.FSharpProjectOptions],FSharp.Compiler.CodeAnalysis.FSharpProjectOptions] ProjectChecked
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.IEvent`2[Microsoft.FSharp.Control.FSharpHandler`1[FSharp.Compiler.CodeAnalysis.FSharpProjectOptions],FSharp.Compiler.CodeAnalysis.FSharpProjectOptions] get_ProjectChecked()
 FSharp.Compiler.CodeAnalysis.FSharpChecker: Microsoft.FSharp.Control.IEvent`2[Microsoft.FSharp.Control.FSharpHandler`1[System.Tuple`2[System.String,FSharp.Compiler.CodeAnalysis.FSharpProjectOptions]],System.Tuple`2[System.String,FSharp.Compiler.CodeAnalysis.FSharpProjectOptions]] BeforeBackgroundFileCheck
@@ -5115,6 +5118,185 @@ FSharp.Compiler.Interactive.Shell: FSharp.Compiler.Interactive.Shell+FsiEvaluati
 FSharp.Compiler.Interactive.Shell: FSharp.Compiler.Interactive.Shell+FsiEvaluationSessionHostConfig
 FSharp.Compiler.Interactive.Shell: FSharp.Compiler.Interactive.Shell+FsiValue
 FSharp.Compiler.Interactive.Shell: FSharp.Compiler.Interactive.Shell+Settings
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpGeneratedSource)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpGeneratedSource, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: Boolean Equals(System.Object)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: Boolean Equals(System.Object, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind Kind
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind get_Kind()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder Order
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder get_Order()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: Int32 GetHashCode()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: Int32 GetHashCode(System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: System.String FileName
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: System.String HintName
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: System.String SourceText
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: System.String ToString()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: System.String get_FileName()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: System.String get_HintName()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: System.String get_SourceText()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSource: Void .ctor(System.String, System.String, System.String, FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind, FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind+Tags: Int32 Implementation
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind+Tags: Int32 Signature
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Boolean Equals(System.Object)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Boolean Equals(System.Object, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Boolean IsImplementation
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Boolean IsSignature
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Boolean get_IsImplementation()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Boolean get_IsSignature()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind Implementation
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind Signature
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind get_Implementation()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind get_Signature()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind+Tags
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Int32 CompareTo(FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Int32 CompareTo(System.Object)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Int32 CompareTo(System.Object, System.Collections.IComparer)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Int32 GetHashCode()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Int32 GetHashCode(System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Int32 Tag
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: Int32 get_Tag()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceKind: System.String ToString()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+AfterFile: System.String get_targetFilePath()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+AfterFile: System.String targetFilePath
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+BeforeFile: System.String get_targetFilePath()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+BeforeFile: System.String targetFilePath
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+BeforeImplementation: System.String get_implementationFilePath()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+BeforeImplementation: System.String implementationFilePath
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+Tags: Int32 AfterFile
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+Tags: Int32 BeforeFile
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+Tags: Int32 BeforeImplementation
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+Tags: Int32 EndOfProject
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Boolean Equals(System.Object)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Boolean Equals(System.Object, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Boolean IsAfterFile
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Boolean IsBeforeFile
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Boolean IsBeforeImplementation
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Boolean IsEndOfProject
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Boolean get_IsAfterFile()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Boolean get_IsBeforeFile()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Boolean get_IsBeforeImplementation()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Boolean get_IsEndOfProject()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder EndOfProject
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder NewAfterFile(System.String)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder NewBeforeFile(System.String)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder NewBeforeImplementation(System.String)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder get_EndOfProject()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+AfterFile
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+BeforeFile
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+BeforeImplementation
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder+Tags
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Int32 CompareTo(FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Int32 CompareTo(System.Object)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Int32 CompareTo(System.Object, System.Collections.IComparer)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Int32 GetHashCode()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Int32 GetHashCode(System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Int32 Tag
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: Int32 get_Tag()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceOrder: System.String ToString()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore: Boolean Contains(System.String)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore Empty
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore get_Empty()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore: Microsoft.FSharp.Collections.FSharpMap`2[System.String,System.String] ToOverlayMap()
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore: Microsoft.FSharp.Core.FSharpOption`1[System.String] TryGet(System.String)
+FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore: Void .ctor(System.Collections.Generic.IEnumerable`1[System.Tuple`2[System.String,System.String]])
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Boolean Equals(System.Object)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Boolean Equals(System.Object, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Int32 GetHashCode()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Int32 GetHashCode(System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Collections.FSharpList`1[System.String] DefineConstants
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Collections.FSharpList`1[System.String] OtherOptions
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Collections.FSharpList`1[System.String] References
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Collections.FSharpList`1[System.String] SourceFiles
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Collections.FSharpList`1[System.String] get_DefineConstants()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Collections.FSharpList`1[System.String] get_OtherOptions()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Collections.FSharpList`1[System.String] get_References()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Collections.FSharpList`1[System.String] get_SourceFiles()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Collections.FSharpMap`2[System.String,System.String] AdditionalFiles
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Collections.FSharpMap`2[System.String,System.String] get_AdditionalFiles()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Core.FSharpOption`1[System.String] AssemblyName
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Core.FSharpOption`1[System.String] OutputFile
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Core.FSharpOption`1[System.String] ProjectFileName
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Core.FSharpOption`1[System.String] get_AssemblyName()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Core.FSharpOption`1[System.String] get_OutputFile()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Microsoft.FSharp.Core.FSharpOption`1[System.String] get_ProjectFileName()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: System.String ProjectDirectory
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: System.String ToString()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: System.String get_ProjectDirectory()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: System.Threading.CancellationToken CancellationToken
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: System.Threading.CancellationToken get_CancellationToken()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext: Void .ctor(Microsoft.FSharp.Core.FSharpOption`1[System.String], System.String, Microsoft.FSharp.Collections.FSharpList`1[System.String], Microsoft.FSharp.Collections.FSharpList`1[System.String], Microsoft.FSharp.Collections.FSharpList`1[System.String], Microsoft.FSharp.Collections.FSharpList`1[System.String], Microsoft.FSharp.Core.FSharpOption`1[System.String], Microsoft.FSharp.Core.FSharpOption`1[System.String], Microsoft.FSharp.Collections.FSharpMap`2[System.String,System.String], System.Threading.CancellationToken)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: Boolean Equals(System.Object)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: Boolean Equals(System.Object, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: FSharp.Compiler.Diagnostics.FSharpDiagnosticSeverity Severity
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: FSharp.Compiler.Diagnostics.FSharpDiagnosticSeverity get_Severity()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: Int32 GetHashCode()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: Int32 GetHashCode(System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: Microsoft.FSharp.Core.FSharpOption`1[FSharp.Compiler.Text.Range] Range
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: Microsoft.FSharp.Core.FSharpOption`1[FSharp.Compiler.Text.Range] get_Range()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: System.String Id
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: System.String Message
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: System.String ToString()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: System.String get_Id()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: System.String get_Message()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic: Void .ctor(System.String, System.String, FSharp.Compiler.Diagnostics.FSharpDiagnosticSeverity, Microsoft.FSharp.Core.FSharpOption`1[FSharp.Compiler.Text.Range])
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Boolean EmitGeneratedFiles
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Boolean Equals(System.Object)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Boolean Equals(System.Object, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Boolean get_EmitGeneratedFiles()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Int32 GetHashCode()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Int32 GetHashCode(System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Int32 MaxPasses
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Int32 get_MaxPasses()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Microsoft.FSharp.Collections.FSharpList`1[System.String] AdditionalFiles
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Microsoft.FSharp.Collections.FSharpList`1[System.String] AnalyzerConfigFiles
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Microsoft.FSharp.Collections.FSharpList`1[System.String] get_AdditionalFiles()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Microsoft.FSharp.Collections.FSharpList`1[System.String] get_AnalyzerConfigFiles()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: System.String OutputDirectory
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: System.String ToString()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: System.String get_OutputDirectory()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOptions: Void .ctor(System.String, Boolean, Microsoft.FSharp.Collections.FSharpList`1[System.String], Microsoft.FSharp.Collections.FSharpList`1[System.String], Int32)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput: Boolean Equals(FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput: Boolean Equals(System.Object)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput: Boolean Equals(System.Object, System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput: Int32 GetHashCode()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput: Int32 GetHashCode(System.Collections.IEqualityComparer)
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput: Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.FSharpGeneratedSource] GeneratedSources
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput: Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.FSharpGeneratedSource] get_GeneratedSources()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput: Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic] Diagnostics
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput: Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic] get_Diagnostics()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput: System.String ToString()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput: Void .ctor(Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.FSharpGeneratedSource], Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic])
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: Boolean CacheHit
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: Boolean get_CacheHit()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore Store
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore get_Store()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult Empty
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult get_Empty()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.FSharpGeneratedSource] GeneratedSources
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.FSharpGeneratedSource] get_GeneratedSources()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic] Diagnostics
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic] get_Diagnostics()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: Microsoft.FSharp.Collections.FSharpList`1[System.String] OrderedSourceFiles
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: Microsoft.FSharp.Collections.FSharpList`1[System.String] get_OrderedSourceFiles()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: System.String ToString()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: System.TimeSpan ElapsedTime
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: System.TimeSpan get_ElapsedTime()
+FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorRunResult: Void .ctor(Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.FSharpGeneratedSource], Microsoft.FSharp.Collections.FSharpList`1[System.String], Microsoft.FSharp.Collections.FSharpList`1[FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic], System.TimeSpan, FSharp.Compiler.SourceGeneration.FSharpGeneratedSourceStore, Boolean)
+FSharp.Compiler.SourceGeneration.IFSharpSourceGenerator: FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorOutput Generate(FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorContext)
+FSharp.Compiler.SourceGeneration.IFSharpSourceGeneratorWithId: System.String GeneratorId
+FSharp.Compiler.SourceGeneration.IFSharpSourceGeneratorWithId: System.String get_GeneratorId()
 FSharp.Compiler.Symbols.FSharpAbstractParameter: Boolean IsInArg
 FSharp.Compiler.Symbols.FSharpAbstractParameter: Boolean IsOptionalArg
 FSharp.Compiler.Symbols.FSharpAbstractParameter: Boolean IsOutArg
