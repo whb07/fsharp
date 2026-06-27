@@ -444,6 +444,8 @@
     <Compile Include="CodeGen\EraseUnions.fs" />
     <Compile Include="CodeGen\IlxGen.fsi" />
     <Compile Include="CodeGen\IlxGen.fs" />
+    <Compile Include="SourceGeneration\FSharpSourceGeneratorTypes.fsi" />
+    <Compile Include="SourceGeneration\FSharpSourceGeneratorTypes.fs" />
     <Compile Include="Driver\FxResolver.fsi" />
     <Compile Include="Driver\FxResolver.fs" />
     <Compile Include="DependencyManager/AssemblyResolveHandler.fsi">
@@ -563,6 +565,8 @@
     <Compile Include="Service\BackgroundCompiler.fs" />
     <Compile Include="Service\TransparentCompiler.fsi" />
     <Compile Include="Service\TransparentCompiler.fs" />
+    <Compile Include="SourceGeneration\FSharpGeneratedSourceOrdering.fs" />
+    <Compile Include="SourceGeneration\FSharpSourceGeneratorDriver.fs" />
     <Compile Include="Service\service.fsi" />
     <Compile Include="Service\service.fs" />
     <Compile Include="Service\FSharpWorkspaceState.fs" />

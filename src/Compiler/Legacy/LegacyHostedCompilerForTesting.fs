@@ -111,6 +111,7 @@ type internal InProcCompiler(legacyReferenceResolver) =
                 exiter,
                 loggerProvider.Provider,
                 None,
+                None,
                 None
             )
         with

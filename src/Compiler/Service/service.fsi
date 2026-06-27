@@ -11,6 +11,7 @@ open FSharp.Compiler.CodeAnalysis
 open FSharp.Compiler.CodeAnalysis.TransparentCompiler
 open FSharp.Compiler.Diagnostics
 open FSharp.Compiler.EditorServices
+open FSharp.Compiler.SourceGeneration
 open FSharp.Compiler.Symbols
 open FSharp.Compiler.Text
 open FSharp.Compiler.Tokenization
@@ -409,6 +410,48 @@ type public FSharpChecker =
     /// <param name="argv">The command line arguments for the project build.</param>
     /// <param name="userOpName">An optional string used for tracing compiler operations associated with this request.</param>
     member Compile: argv: string[] * ?userOpName: string -> Async<FSharpDiagnostic[] * exn option>
+
+    /// <summary>
+    /// Compile in-process after running F# source generators. The generators are run through an
+    /// in-process source-generation hook installed into the shared compiler driver, so generated
+    /// files participate in parsing/typechecking and emit just like ordinary source files. No
+    /// fsc.exe process is spawned.
+    /// </summary>
+    ///
+    /// <param name="argv">The command line arguments for the project build. The first argument is ignored and can just be "fsc.exe".</param>
+    /// <param name="generators">The source generators to run.</param>
+    /// <param name="generatorOptions">Configuration for the source-generation driver.</param>
+    /// <param name="userOpName">An optional string used for tracing compiler operations associated with this request.</param>
+    member CompileWithSourceGenerators:
+        argv: string[] *
+        generators: IFSharpSourceGenerator list *
+        generatorOptions: FSharpSourceGeneratorOptions *
+        ?userOpName: string ->
+            Async<FSharpDiagnostic[] * FSharpSourceGeneratorRunResult * exn option>
+
+    /// <summary>
+    /// Run source generators against the project described by <paramref name="options"/> and return an
+    /// updated FSharpProjectOptions whose SourceFiles include the generated files, along with the
+    /// generator run result. Does not typecheck.
+    /// </summary>
+    member RunSourceGeneratorsAndUpdateProject:
+        options: FSharpProjectOptions *
+        generators: IFSharpSourceGenerator list *
+        generatorOptions: FSharpSourceGeneratorOptions *
+        ?userOpName: string ->
+            Async<FSharpProjectOptions * FSharpSourceGeneratorRunResult>
+
+    /// <summary>
+    /// Run source generators against the project described by <paramref name="options"/> and then
+    /// parse-and-check the resulting (updated) project. Returns the check results and the
+    /// generator run result.
+    /// </summary>
+    member ParseAndCheckProjectWithSourceGenerators:
+        options: FSharpProjectOptions *
+        generators: IFSharpSourceGenerator list *
+        generatorOptions: FSharpSourceGeneratorOptions *
+        ?userOpName: string ->
+            Async<FSharpCheckProjectResults * FSharpSourceGeneratorRunResult>
 
     /// <summary>
     /// Try to get type check results for a file. This looks up the results of recent type checks of the

@@ -41,6 +41,34 @@ type DiagnosticsLoggerUpToMaxErrors =
 
     override DiagnosticSink: diagnostic: PhasedDiagnostic -> unit
 
+/// An optional source-generation hook supplied by the host (typically FSharpChecker).
+/// When present, the driver invokes it after output names and TcConfig have been
+/// decided and before source files are parsed.
+[<NoComparison>]
+type SourceGenerationCompilerRequest =
+    {
+        TcConfigBuilder: TcConfigBuilder
+        TcConfig: TcConfig
+        OriginalSourceFiles: string list
+        OtherOptions: string list
+        OutputFile: string option
+        AssemblyName: string
+        ProjectDirectory: string
+        CancellationToken: System.Threading.CancellationToken
+    }
+
+[<NoComparison>]
+type SourceGenerationCompilerResponse =
+    {
+        OrderedSourceFiles: string list
+        GeneratedSources: FSharp.Compiler.SourceGeneration.FSharpGeneratedSource list
+        Diagnostics: FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic list
+        ElapsedTime: System.TimeSpan
+    }
+
+type SourceGenerationHook =
+    delegate of request: SourceGenerationCompilerRequest -> SourceGenerationCompilerResponse
+
 /// The main (non-incremental) compilation entry point used by fsc.exe
 val CompileFromCommandLineArguments:
     ctok: CompilationThreadToken *
@@ -52,7 +80,8 @@ val CompileFromCommandLineArguments:
     exiter: Exiter *
     loggerProvider: IDiagnosticsLoggerProvider *
     tcImportsCapture: (TcImports -> unit) option *
-    dynamicAssemblyCreator: (TcConfig * TcGlobals * string * ILModuleDef -> unit) option ->
+    dynamicAssemblyCreator: (TcConfig * TcGlobals * string * ILModuleDef -> unit) option *
+    sourceGenerationHook: SourceGenerationHook option ->
         unit
 
 /// Read the parallelReferenceResolution flag from environment variables

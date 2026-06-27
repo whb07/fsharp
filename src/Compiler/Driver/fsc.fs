@@ -423,6 +423,43 @@ let getParallelReferenceResolutionFromEnvironment () =
                 Some ParallelReferenceResolution.Off
         | false, _ -> None)
 
+//----------------------------------------------------------------------------
+// Source generation hook
+//
+// An optional hook that allows the shared compiler driver to run F# source
+// generators in-process and replace the source file list seen by the rest
+// of the pipeline. When no hook is supplied (the default), the compiler
+// behaves exactly as before.
+//----------------------------------------------------------------------------
+
+[<NoComparison>]
+type SourceGenerationCompilerRequest =
+    {
+        TcConfigBuilder: TcConfigBuilder
+        TcConfig: TcConfig
+        OriginalSourceFiles: string list
+        OtherOptions: string list
+        OutputFile: string option
+        AssemblyName: string
+        ProjectDirectory: string
+        CancellationToken: CancellationToken
+    }
+
+[<NoComparison>]
+type SourceGenerationCompilerResponse =
+    {
+        OrderedSourceFiles: string list
+        GeneratedSources: FSharp.Compiler.SourceGeneration.FSharpGeneratedSource list
+        Diagnostics: FSharp.Compiler.SourceGeneration.FSharpSourceGeneratorDiagnostic list
+        ElapsedTime: TimeSpan
+    }
+
+/// An optional source-generation hook supplied by the host (typically
+/// FSharpChecker). When present, the driver invokes it after output names and
+/// TcConfig have been decided and before source files are parsed.
+type SourceGenerationHook =
+    delegate of request: SourceGenerationCompilerRequest -> SourceGenerationCompilerResponse
+
 /// First phase of compilation.
 ///   - Set up console encoding and code page settings
 ///   - Process command line, flags and collect filenames
@@ -440,6 +477,7 @@ let main1
         defaultCopyFSharpCore: CopyFSharpCoreFlag,
         exiter: Exiter,
         diagnosticsLoggerProvider: IDiagnosticsLoggerProvider,
+        sourceGenerationHook: SourceGenerationHook option,
         disposables: DisposablesTracker
     ) =
 
@@ -595,6 +633,52 @@ let main1
     let tcGlobals, frameworkTcImports =
         TcImports.BuildFrameworkTcImports(foundationalTcConfigP, sysRes, otherRes)
         |> Async.RunImmediate
+
+    // Run source generators (if any) after output names/TcConfig are decided but before
+    // source files are converted into compiler source documents and parsed. Generated files
+    // participate in parsing/typechecking and later emit, but they do not change default
+    // output naming.
+    let sourceFiles =
+        match sourceGenerationHook with
+        | None ->
+            sourceFiles
+
+        | Some hook ->
+            ReportTime tcConfig "Source generation"
+
+            let otherOptions =
+                // argv includes the executable name as the first element; drop it so the
+                // generator context sees only the real compiler options.
+                if argv.Length > 0 then Array.toList argv.[1..] else []
+
+            let response =
+                hook.Invoke
+                    {
+                        TcConfigBuilder = tcConfigB
+                        TcConfig = tcConfig
+                        OriginalSourceFiles = sourceFiles
+                        OtherOptions = otherOptions
+                        OutputFile = Some outfile
+                        AssemblyName = assemblyName
+                        ProjectDirectory = tcConfigB.implicitIncludeDir
+                        CancellationToken = CancellationToken.None
+                    }
+
+            // Report generator diagnostics through the standard compiler diagnostics sink so
+            // they appear in the same diagnostic stream as compile errors.
+            for d in response.Diagnostics do
+                let msg = sprintf "[%s] %s" d.Id d.Message
+                match d.Severity with
+                | FSharpDiagnosticSeverity.Error ->
+                    errorR (Error((0, msg), rangeStartup))
+                | FSharpDiagnosticSeverity.Warning ->
+                    warning (Error((0, msg), rangeStartup))
+                | FSharpDiagnosticSeverity.Info
+                | FSharpDiagnosticSeverity.Hidden ->
+                    ()
+
+            AbortOnError(diagnosticsLogger, exiter)
+            response.OrderedSourceFiles
 
     let ilSourceDocs =
         [
@@ -1215,7 +1299,8 @@ let CompileFromCommandLineArguments
         exiter: Exiter,
         loggerProvider,
         tcImportsCapture,
-        dynamicAssemblyCreator
+        dynamicAssemblyCreator,
+        sourceGenerationHook: SourceGenerationHook option
     ) =
 
     use disposables = new DisposablesTracker()
@@ -1229,6 +1314,7 @@ let CompileFromCommandLineArguments
         defaultCopyFSharpCore,
         exiter,
         loggerProvider,
+        sourceGenerationHook,
         disposables
     )
     |> main2

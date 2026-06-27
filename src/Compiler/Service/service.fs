@@ -15,6 +15,7 @@ open FSharp.Compiler.CompilerOptions
 open FSharp.Compiler.Diagnostics
 open FSharp.Compiler.Driver
 open FSharp.Compiler.DiagnosticsLogger
+open FSharp.Compiler.SourceGeneration
 open FSharp.Compiler.Symbols
 open FSharp.Compiler.Tokenization
 open FSharp.Compiler.Text
@@ -60,8 +61,18 @@ module CompileHelpers =
             stopProcessingRecovery e range0
             Some e
 
-    /// Compile using the given flags.  Source files names are resolved via the FileSystem API. The output file must be given by a -o flag.
-    let compileFromArgs (ctok, argv: string[], legacyReferenceResolver, tcImportsCapture, dynamicAssemblyCreator) =
+    /// Compile using the given flags, optionally running an in-process source-generation
+    /// hook before source files are parsed. Source files names are resolved via the
+    /// FileSystem API. The output file must be given by a -o flag.
+    let compileFromArgsWithSourceGenerationHook
+        (
+            ctok,
+            argv: string[],
+            legacyReferenceResolver,
+            tcImportsCapture,
+            dynamicAssemblyCreator,
+            sourceGenerationHook: Driver.SourceGenerationHook option
+        ) =
 
         let diagnostics, diagnosticsLogger, loggerProvider =
             mkCompilationDiagnosticsHandlers (argv |> Array.contains "--flaterrors")
@@ -78,10 +89,22 @@ module CompileHelpers =
                     exiter,
                     loggerProvider,
                     tcImportsCapture,
-                    dynamicAssemblyCreator
+                    dynamicAssemblyCreator,
+                    sourceGenerationHook
                 ))
 
         diagnostics.ToArray(), result
+
+    /// Compile using the given flags.  Source files names are resolved via the FileSystem API. The output file must be given by a -o flag.
+    let compileFromArgs (ctok, argv: string[], legacyReferenceResolver, tcImportsCapture, dynamicAssemblyCreator) =
+        compileFromArgsWithSourceGenerationHook(
+            ctok,
+            argv,
+            legacyReferenceResolver,
+            tcImportsCapture,
+            dynamicAssemblyCreator,
+            None
+        )
 
 [<Sealed; AutoSerializable(false)>]
 // There is typically only one instance of this type in an IDE process.
@@ -319,6 +342,114 @@ type FSharpChecker
         async {
             let ctok = CompilationThreadToken()
             return CompileHelpers.compileFromArgs (ctok, argv, legacyReferenceResolver, None, None)
+        }
+
+    /// Compile in-process after running F# source generators. The generators are run
+    /// through an in-process source-generation hook installed into the shared compiler
+    /// driver, so generated files participate in parsing/typechecking and emit just like
+    /// ordinary source files. No fsc.exe process is spawned.
+    ///
+    /// The first argument of `argv` is ignored and can just be "fsc.exe".
+    member _.CompileWithSourceGenerators
+        (
+            argv: string[],
+            generators: IFSharpSourceGenerator list,
+            generatorOptions: FSharpSourceGeneratorOptions,
+            ?userOpName: string
+        ) =
+        let userOpName = defaultArg userOpName "CompileWithSourceGenerators"
+        use _ = Activity.start "FSharpChecker.CompileWithSourceGenerators" [| Activity.Tags.userOpName, userOpName |]
+
+        async {
+            let ctok = CompilationThreadToken()
+
+            // The hook captures the last run result so we can return it to the caller.
+            let lastResult = ref None
+
+            let hook =
+                Driver.SourceGenerationHook(fun request ->
+                    let response =
+                        FSharpSourceGeneratorDriver.runFromCompilerRequest request generators generatorOptions
+
+                    // Stash the response so we can return a full run result to the caller.
+                    lastResult.Value <- Some response
+                    response)
+
+            let diagnostics, compileException =
+                CompileHelpers.compileFromArgsWithSourceGenerationHook(
+                    ctok,
+                    argv,
+                    legacyReferenceResolver,
+                    None,
+                    None,
+                    Some hook
+                )
+
+            let generatorResult =
+                match lastResult.Value with
+                | Some response ->
+                    {
+                        GeneratedSources = response.GeneratedSources
+                        OrderedSourceFiles = response.OrderedSourceFiles
+                        Diagnostics = response.Diagnostics
+                        ElapsedTime = response.ElapsedTime
+                    }
+                | None ->
+                    FSharpSourceGeneratorRunResult.Empty
+
+            return diagnostics, generatorResult, compileException
+        }
+
+    /// Run source generators against the project described by `options` and return an
+    /// updated FSharpProjectOptions whose SourceFiles include the generated files, along
+    /// with the generator run result. Does not typecheck.
+    member checker.RunSourceGeneratorsAndUpdateProject
+        (
+            options: FSharpProjectOptions,
+            generators: IFSharpSourceGenerator list,
+            generatorOptions: FSharpSourceGeneratorOptions,
+            ?userOpName: string
+        ) =
+        let userOpName = defaultArg userOpName "RunSourceGeneratorsAndUpdateProject"
+
+        use _ = Activity.start "FSharpChecker.RunSourceGeneratorsAndUpdateProject" [| Activity.Tags.userOpName, userOpName |]
+
+        async {
+            let! result =
+                FSharpSourceGeneratorDriver.runFromProjectOptions
+                    options
+                    generators
+                    generatorOptions
+
+            let updatedOptions =
+                { options with SourceFiles = result.OrderedSourceFiles |> List.toArray }
+
+            return updatedOptions, result
+        }
+
+    /// Run source generators against the project described by `options` and then
+    /// parse-and-check the resulting (updated) project. Returns the check results and the
+    /// generator run result.
+    member checker.ParseAndCheckProjectWithSourceGenerators
+        (
+            options: FSharpProjectOptions,
+            generators: IFSharpSourceGenerator list,
+            generatorOptions: FSharpSourceGeneratorOptions,
+            ?userOpName: string
+        ) =
+        let userOpName = defaultArg userOpName "ParseAndCheckProjectWithSourceGenerators"
+
+        async {
+            let! updatedOptions, genResult =
+                checker.RunSourceGeneratorsAndUpdateProject(
+                    options,
+                    generators,
+                    generatorOptions,
+                    userOpName
+                )
+
+            let! checkResults = checker.ParseAndCheckProject(updatedOptions, userOpName)
+            return checkResults, genResult
         }
 
     /// This function is called when the entire environment is known to have changed for reasons not encoded in the ProjectOptions of any project/compilation.

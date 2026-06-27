@@ -86,6 +86,7 @@ let main (argv) =
             QuitProcessExiter,
             ConsoleLoggerProvider(),
             None,
+            None,
             None
         )
 
